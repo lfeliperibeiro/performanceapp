@@ -1,21 +1,28 @@
 import React, { memo } from 'react';
-import { Text } from 'react-native';
+import { Text, TouchableOpacity, View } from 'react-native';
+import lodash from 'lodash';
 
 interface Props {
   data: {
     name: string;
     likes: number;
   };
+  follow: () => void;
 }
 
-function FriendComponent({ data }: Props) {
+function FriendComponent({ data, follow }: Props) {
   return (
-    <Text>
-      {data.name} - Likes: {data.likes}
-    </Text>
+    <View>
+      <Text>
+        {data.name} - Likes: {data.likes}
+      </Text>
+      <TouchableOpacity onPress={follow}>
+        <Text>Deixar de seguir</Text>
+      </TouchableOpacity>
+    </View>
   );
 }
 
 export const Friend = memo(FriendComponent, (prevProps, nextProps) => {
-  return Object.is(prevProps.data, nextProps.data);
+  return lodash.isEqual(prevProps.data, nextProps.data);
 });
